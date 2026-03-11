@@ -1,0 +1,44 @@
+body {
+  background-color: #f7f8fa;
+}
+
+/* General Layout */
+.admin-layout {
+  min-height: 100vh;
+  background: #f7f8fa;
+}
+
+/* Header */
+.admin-header {
+  background: #001529 !important;
+  padding: 0 24px !important;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  margin-right: 48px;
+}
+
+/* Main Content Area */
+.admin-content {
+  margin: 24px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 8px rgba(0,0,0,0.03);
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.content-header .ant-typography {
+  margin-bottom: 0 !important;
+}

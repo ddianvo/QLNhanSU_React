@@ -1,0 +1,9 @@
+/* Asset Manager Styles */
+.asset-manager-container {
+  padding: 0;
+}
+
+.asset-toolbar-card {
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}

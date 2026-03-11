@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap");
+
+/* --- Theme Variables & Animations --- */
+:root {
+  --radius: 12px;
+  --pads: 1rem;
+}
+
+:root, [data-theme='light'] {
+  --color-acid: #0066ff; /* Đổi sang màu xanh dương cho Light Mode để dễ đọc */
+  --color-void: #f0f2f5;
+  --color-deep: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-glass: rgba(255, 255, 255, 0.6);
+  --color-purple: #7b4dff;
+  --color-text: #0a0a0f;
+  --color-text-muted: #595959;
+  --color-border: #e8e8e8;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --grid-color: rgba(0, 0, 0, 0.05); /* Màu lưới cho nền sáng */
+  --font-display: "Orbitron", monospace;
+  --font-body: "Exo 2", sans-serif;
+  
+  /* Button & Input backgrounds */
+  --input-bg: #ffffff;
+  --hover-bg: rgba(0, 102, 255, 0.06);
+  --money-color: #009900; /* Xanh đậm dễ đọc trên nền trắng */
+}
+
+[data-theme='dark'] {
+  --color-acid: #1677ff; /* Xanh dương tối giản, chuyên nghiệp */
+  --color-void: #000000; /* Nền đen tuyền */
+  --color-deep: #141414; /* Xám rất đậm */
+  --color-surface: #141414;
+  --color-surface-glass: #141414; /* Bỏ kính mờ, dùng nền đặc cho tối giản */
+  --color-purple: #7b4dff;
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.45);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Bóng đổ nhẹ nhàng */
+  --grid-color: rgba(255, 255, 255, 0.03); /* Lưới rất mờ */
+  --font-display: "Orbitron", monospace;
+  --font-body: "Exo 2", sans-serif;
+
+  /* Button & Input backgrounds */
+  --input-bg: #1f1f1f;
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --money-color: #52c41a; /* Xanh lá cây chuẩn, dễ đọc */
+}
+
+/* Xóa bỏ hoàn toàn định dạng flex-center mặc định của Vite */
+body, #root {
+  margin: 0 !important;
+  display: block !important;
+  background-color: var(--color-void) !important;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  transition: background-color 0.6s var(--cubic); /* Smooth theme transition */
+}
+
+/* Global Background Grid Animation */
+.app-background-grid {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 100%);
+  opacity: 0.5;
+}
+
+.luxury-layout {
+  min-height: 100vh;
+  background: transparent !important;
+  transition: background-color 0.6s var(--cubic);
+  position: relative;
+  z-index: 1;
+}
+
+.luxury-header {
+  background: var(--color-surface-glass) !important;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Phân chia không gian đều */
+  padding: 0 60px !important;
+  height: 80px !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(20px) saturate(180%);
+  transition: background-color 0.6s var(--cubic), border-color 0.6s var(--cubic);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--color-text);
+  letter-spacing: -1px;
+  transition: color 0.3s var(--cubic);
+  flex-shrink: 0; /* Ngăn logo bị co lại */
+  min-width: 200px; /* Đảm bảo không gian cho logo */
+}
+
+.brand span { 
+  transition: background-color 0.3s var(--cubic);
+}
+
+.luxury-menu {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Căn giữa menu */
+  border-bottom: none !important;
+  font-weight: 600;
+  background: transparent !important;
+  min-width: 0; /* Cho phép menu co lại nếu cần thiết thay vì đẩy layout */
+}
+
+/* Menu Items Animation */
+.ant-menu-item {
+  transition: color 0.3s var(--cubic) !important;
+}
+.ant-menu-item::after {
+  transition: border-bottom-color 0.3s var(--spring) !important;
+}
+
+.user-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-surface);
+  border-radius: 30px;
+  transition: background-color 0.3s var(--cubic);
+  flex-shrink: 0; /* Ngăn phần user bị co lại */
+}
+
+.luxury-content {
+  padding: 40px 60px !important; /* Đồng nhất padding */
+  background: transparent; /* Nền của content trong suốt để lộ nền của layout */
+}
+
+.content-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-family: var(--font-display) !important;
+  margin: 0 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.5px;
+}
+
+.data-card {
+  background: var(--color-surface);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.8s ease;
+}
+
+/* Hiệu ứng mượt mà */
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Tinh chỉnh nút bấm */
+.btn-add {
+  height: 45px !important;
+  padding: 0 25px !important;
+  background: var(--color-acid) !important;
+  color: var(--color-void) !important;
+  border: none !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+}
+
+/* Tinh chỉnh bảng Antd cho phong cách tối giản */
+.ant-table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ant-table {
+  background: transparent !important;
+}
+
+.ant-table-thead > tr > th {
+  background: var(--table-header-bg) !important;
+  border-bottom: 1px solid var(--table-row-border) !important;
+  font-weight: 600 !important;
+  color: var(--text-color-secondary) !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid var(--table-row-border) !important;
+}
+
+.ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+
+/* Tinh chỉnh card thống kê trên Dashboard */
+.dashboard-stat-card {
+  border: 1px solid var(--header-border-color) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+
+/* Login Page Styles */
+.login-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-card {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* --- Custom Cursor Styles --- */
+
+/* Ẩn con trỏ chuột mặc định của hệ thống trên toàn bộ trang */
+* {
+  cursor: none !important;
+}
+
+/* Vòng tròn viền ngoài (con trỏ chính) */
+#cursor-ring {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-text);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: left 0.1s ease-out, top 0.1s ease-out, width 0.2s, height 0.2s; /* Có độ trễ để đi theo sau */
+}
+
+/* Chấm tròn tâm (di chuyển tức thì) */
+#cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-text);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10000;
+  /* Không có transition để đảm bảo chính xác tuyệt đối */
+}
