@@ -134,7 +134,18 @@ const initialLeaveRequests = [
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('currentUser'));
-  const [currentUser, setCurrentUser] = useState(() => JSON.parse(localStorage.getItem('currentUser')) || null);
+  const [currentUser, setCurrentUser] = useState(() => {
+    const saved = localStorage.getItem('currentUser');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Error parsing currentUser:', e);
+        localStorage.removeItem('currentUser');
+      }
+    }
+    return null;
+  });
   const [themeMode, setThemeMode] = useState(() => localStorage.getItem('themeMode') || 'light');
   // Bắt đầu với Dashboard
   const [activeTab, setActiveTab] = useState(currentUser?.role === 'user' ? 'user_dashboard' : '0'); 
@@ -147,9 +158,15 @@ function App() {
   const [data, setData] = useState(() => {
     const saved = localStorage.getItem('danhSachNhanVien_v6_final'); // Đổi key để bắt buộc nạp lại 50 nhân viên mới
     // Nếu có dữ liệu đã lưu, dùng nó. Nếu không, tạo key ngẫu nhiên cho dữ liệu tĩnh.
-    const initial = saved 
-      ? JSON.parse(saved) 
-      : initialData;
+    let initial = initialData;
+    if (saved) {
+      try {
+        initial = JSON.parse(saved);
+      } catch (e) {
+        console.error('Error parsing localStorage:', e);
+        localStorage.removeItem('danhSachNhanVien_v6_final');
+      }
+    }
     
     // Bổ sung dữ liệu giả lập cho Báo cáo (nếu chưa có)
     return initial.map(emp => ({
@@ -162,7 +179,15 @@ function App() {
 
   const [users, setUsers] = useState(() => {
     const savedUsers = localStorage.getItem('users_v1');
-    return savedUsers ? JSON.parse(savedUsers) : initialUsers;
+    if (savedUsers) {
+      try {
+        return JSON.parse(savedUsers);
+      } catch (e) {
+        console.error('Error parsing users:', e);
+        localStorage.removeItem('users_v1');
+      }
+    }
+    return initialUsers;
   });
 
   useEffect(() => {
@@ -438,7 +463,7 @@ function App() {
                 Lưu ý: Để hoạt động tốt nhất, file /public/images/logo.png của bạn nên là ảnh logo MÀU ĐEN trên nền TRONG SUỐT.
               */}
               <img 
-                src="/images/logo.png" 
+                src={`${import.meta.env.BASE_URL}images/logo.png`}
                 alt="Logo" 
                 style={{ 
                   width: '32px', height: '32px', objectFit: 'contain', 
